@@ -21,7 +21,7 @@ const Wrapper = glamorous.div({
 
   '& circle': {
     fill: 'none',
-    strokeWidth: 2.5
+    strokeWidth: 3.5
   }
 });
 
@@ -64,7 +64,7 @@ class Particles extends Component {
       .transition()
       .duration(2000)
       .ease(Math.sqrt)
-      .attr('r', 100)
+      .attr('r', 150)
       .style('stroke-opacity', 1e-6)
       .remove();
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import BarChart from './bar-chart';
 import WorldMap from './world-map';
 import Particles from './particles';
+import ChordDiagram from './chord-diagram';
 import { Route, NavLink, Switch } from "react-router-dom";
 import glamorous from 'glamorous';
 
@@ -9,8 +10,10 @@ const Header = glamorous.div({
   display: 'flex',
   alignItems: 'center',
   height: 60,
-  background: '#222',
+  width: '100vw',
+  background: '#000046',
   justifyContent: 'space-around',
+  position: 'fixed',
 
   ' a': {
     color: '#fff',
@@ -54,12 +57,14 @@ class App extends Component {
         <Header>
           <NavLink exact to='/' activeClassName='active'>Particles</NavLink>
           <NavLink to='/bar-chart' activeClassName='active'>Bar Chart</NavLink>
+          <NavLink to='/chord-diagram' activeClassName='active'>Chord Diagram</NavLink>
           <NavLink to='/world-map' activeClassName='active'>World Map</NavLink>
         </Header>
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <Switch>
             <Route exact path='/' component={Particles} />
             <PropsRoute path='/bar-chart' component={BarChart} data={data} />
+            <Route path='/chord-diagram' component={ChordDiagram} />
             <Route path='/world-map' component={WorldMap} />
           </Switch>
         </div>
