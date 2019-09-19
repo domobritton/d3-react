@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import SanFran from './san-fran';
 import BarChart from './bar-chart';
-import WorldMap from './world-map';
+// import WorldMap from './world-map';
 import Particles from './particles';
 import ChordDiagram from './chord-diagram';
 import { Route, NavLink, Switch } from "react-router-dom";
@@ -11,7 +12,7 @@ const Header = glamorous.div({
   alignItems: 'center',
   height: 60,
   width: '100vw',
-  background: '#000046',
+  background: '#222',
   justifyContent: 'space-around',
   position: 'fixed',
 
@@ -56,16 +57,18 @@ class App extends Component {
       <div className="App">
         <Header>
           <NavLink exact to='/' activeClassName='active'>Particles</NavLink>
+          <NavLink to='/san-fran' activeClassName='active'>San Fran</NavLink>
           <NavLink to='/bar-chart' activeClassName='active'>Bar Chart</NavLink>
           <NavLink to='/chord-diagram' activeClassName='active'>Chord Diagram</NavLink>
-          <NavLink to='/world-map' activeClassName='active'>World Map</NavLink>
+          {/* <NavLink to='/world-map' activeClassName='active'>World Map</NavLink> */}
         </Header>
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <Switch>
             <Route exact path='/' component={Particles} />
+            <Route path='/san-fran' component={SanFran} />
             <PropsRoute path='/bar-chart' component={BarChart} data={data} />
             <Route path='/chord-diagram' component={ChordDiagram} />
-            <Route path='/world-map' component={WorldMap} />
+            {/* <Route path='/world-map' component={WorldMap} /> */}
           </Switch>
         </div>
       </div>

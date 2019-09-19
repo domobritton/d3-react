@@ -71,7 +71,7 @@ class BarChart extends Component {
   render() {
     const {width, height} = this.state;
     return (
-      <div style={{paddingTop: 20, margin: 0}}>
+      <div style={{paddingTop: 20, margin: 0, background: '#222'}}>
         <svg ref={node => this.node = node}
           width={width} height={height}>
         </svg>
