@@ -12,6 +12,18 @@ const Section = glamorous.section({
   background: '#222'
 });
 
+const Circle = glamorous.circle({
+  cursor: 'pointer',
+  ' + text': {
+    fill: '#fff',
+    fontSize: 12,
+    opacity: 0
+  },
+  '&:hover + text': {
+    opacity: 1
+  }
+});
+
 class SanFran extends Component {
   state = {
     data: [],
@@ -48,32 +60,39 @@ class SanFran extends Component {
   projection() {
     return d3
       .geoMercator()
-      .scale(100)
-      .translate([760 / 1.4, 760 / 1.4]);
+      .scale(500)
+      .translate([1310, -210]);
   }
 
   renderFoodCarts = () => {
     const { foodCarts } = this.state;
     if (foodCarts.length !== 0) {
+      console.log(foodCarts);
       return (
         <>
-          {foodCarts.map(({ location: { coordinates } }, i) => {
+          {foodCarts.map(({ location: { coordinates }, address, x, y }, i) => {
             let filteredCoords = coordinates.filter(cord => cord !== 0);
             if (filteredCoords.length !== 0) {
-              const amp = [
-                Math.floor(((filteredCoords[0] * 1000) % 1000).toFixed(2)),
-                Math.floor(((filteredCoords[1] * 1000) % 1000).toFixed(2))
-              ];
+              console.log(Math.round(x / 1000), Math.round(y / 1000))
+              const amp = [Math.round(x / 1000), Math.round(y / 1000)];
               return (
-                <circle
-                  key={`marker-${i}`}
-                  cx={this.projection()(amp)[0]}
-                  cy={this.projection()(amp)[1]}
-                  r={5}
-                  fill="#999"
-                  stroke="#eee"
-                  className="marker"
-                />
+                <g
+                  transform={`translate(${this.projection()(amp)[0]}, ${
+                    this.projection()(amp)[1]
+                  })`}
+                >
+                  <Circle
+                    key={`marker-${i}`}
+                    cx={0}
+                    cy={0}
+                    r={5}
+                    fill="#999"
+                    stroke="#eee"
+                  />
+                  <text textAnchor="middle" y={-10}>
+                    {address}
+                  </text>
+                </g>
               );
             }
             return null;
