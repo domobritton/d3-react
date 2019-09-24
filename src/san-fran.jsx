@@ -45,7 +45,7 @@ class SanFran extends Component {
     }
     try {
       const response = await d3.json(
-        'https://data.sfgov.org/resource/rqzj-sfat.json'
+        'https://data.sfgov.org/resource/rqzj-sfat.geojson'
       );
       if (response.errorMessage) {
         console.log(response.errorMessage);
@@ -67,22 +67,18 @@ class SanFran extends Component {
   renderFoodCarts = () => {
     const { foodCarts } = this.state;
     if (foodCarts.length !== 0) {
-      console.log(foodCarts);
+      const albersProjection = d3.geoMercator().fitSize([760, 760], foodCarts);
+      // const pathGenerator = geoPath().projection(albersProjection);
+      
       return (
         <>
-          {foodCarts.map(({ location: { coordinates }, address, x, y }, i) => {
-            let filteredCoords = coordinates.filter(cord => cord !== 0);
-            if (filteredCoords.length !== 0) {
-              console.log(Math.round(x / 1000), Math.round(y / 1000))
-              const amp = [Math.round(x / 1000), Math.round(y / 1000)];
+          {foodCarts.features.map((d, i) => {
+            const cordsXY = albersProjection(d.geometry.coordinates);
+            const cordsX = cordsXY[0] * 100;
+            const cordsY = cordsXY[1];
               return (
-                <g
-                  transform={`translate(${this.projection()(amp)[0]}, ${
-                    this.projection()(amp)[1]
-                  })`}
-                >
+                <g key={`marker-${i}`} transform={`translate(${cordsX}, ${cordsY})`}>
                   <Circle
-                    key={`marker-${i}`}
                     cx={0}
                     cy={0}
                     r={5}
@@ -90,12 +86,10 @@ class SanFran extends Component {
                     stroke="#eee"
                   />
                   <text textAnchor="middle" y={-10}>
-                    {address}
+                    {/* {address} */}
                   </text>
                 </g>
               );
-            }
-            return null;
           })}
         </>
       );
